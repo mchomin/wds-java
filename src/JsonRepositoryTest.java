@@ -80,12 +80,12 @@ class JsonRepositoryTest {
         }
 
         logPath = "Data/Log_" + UUID.randomUUID().toString() + ".txt";
-        invalidRepo = new JsonRepository("Data/faulty.json", logPath);
-        validRepo = new JsonRepository("Data/devices.json", logPath);
+        FileLogger logger = new FileLogger(logPath);
+        invalidRepo = new JsonRepository("Data/faulty.json", logger);
+        validRepo = new JsonRepository("Data/devices.json", logger);
         try {
             errorLog = FileUtils.readFileToString(new File(logPath), "UTF8");
-        }
-        catch (java.io.IOException ex){
+        } catch (java.io.IOException ex) {
             System.out.println("Could not read file with name: " + logPath);
         }
     }
@@ -108,59 +108,59 @@ class JsonRepositoryTest {
     }
 
     @Test
-    void getByBrandReturnsOnlyDevicesWithThatBrand(){
+    void getByBrandReturnsOnlyDevicesWithThatBrand() {
         ArrayList<Device> results = validRepo.getByBrand("Phony");
-        Assertions.assertTrue(results.stream().allMatch(d->d.brand.equals("Phony")));
+        Assertions.assertTrue(results.stream().allMatch(d -> d.brand.equals("Phony")));
     }
 
     @Test
-    void getByModelReturnsOnlyDevicesWithThatModel(){
+    void getByModelReturnsOnlyDevicesWithThatModel() {
         ArrayList<Device> results = validRepo.getByModel("Universe A1");
-        Assertions.assertTrue(results.stream().allMatch(d->d.model.equals("Universe A1")));
+        Assertions.assertTrue(results.stream().allMatch(d -> d.model.equals("Universe A1")));
     }
 
     @Test
-    void logIsNotEmpty(){
+    void logIsNotEmpty() {
         Assertions.assertTrue(!errorLog.isEmpty());
     }
 
     @Test
-    void invalidBrandIsLogged(){
-        Assertions.assertTrue(errorLog.contains("Invalid brand : " + StringUtils.repeat("a",51)));
+    void invalidBrandIsLogged() {
+        Assertions.assertTrue(errorLog.contains("Invalid brand : " + StringUtils.repeat("a", 51)));
         Assertions.assertTrue(errorLog.contains("Invalid brand : NULL"));
     }
 
     @Test
-    void invalidModelIsLogged(){
-        Assertions.assertTrue(errorLog.contains("Invalid model : " + StringUtils.repeat("a",51)));
+    void invalidModelIsLogged() {
+        Assertions.assertTrue(errorLog.contains("Invalid model : " + StringUtils.repeat("a", 51)));
         Assertions.assertTrue(errorLog.contains("Invalid model : NULL"));
     }
 
     @Test
-    void invalidFormFactorIsLogged(){
+    void invalidFormFactorIsLogged() {
         Assertions.assertTrue(errorLog.contains("Invalid form factor : wrong"));
         Assertions.assertTrue(errorLog.contains("Invalid form factor : NULL"));
     }
 
     @Test
-    void invalidAttributeNameIsLogged(){
-        Assertions.assertTrue(errorLog.contains("Invalid attribute name : " + StringUtils.repeat("a",21)));
+    void invalidAttributeNameIsLogged() {
+        Assertions.assertTrue(errorLog.contains("Invalid attribute name : " + StringUtils.repeat("a", 21)));
         Assertions.assertTrue(errorLog.contains("Invalid attribute name : NULL"));
     }
 
     @Test
-    void invalidAttributeValueIsLogged(){
-        Assertions.assertTrue(errorLog.contains("Invalid attribute value : " + StringUtils.repeat("a",101)));
+    void invalidAttributeValueIsLogged() {
+        Assertions.assertTrue(errorLog.contains("Invalid attribute value : " + StringUtils.repeat("a", 101)));
         Assertions.assertTrue(errorLog.contains("Invalid attribute value : NULL"));
     }
 
     @Test
-    void duplicateDevicesAreLogged(){
+    void duplicateDevicesAreLogged() {
         Assertions.assertTrue(errorLog.contains("Duplicate item : duplicate duplicate"));
     }
 
     @AfterAll
-    static void CleanUp(){
+    static void CleanUp() {
         FileUtils.deleteQuietly(new File("Data/faulty.json"));
         FileUtils.deleteQuietly(new File(logPath));
     }

@@ -1,4 +1,4 @@
-public class Attribute{
-    public String name = "";
-    public String value = "";
+class Attribute {
+    String name = "";
+    String value = "";
 }

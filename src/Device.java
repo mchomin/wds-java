@@ -2,13 +2,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-public class Device {
-    public String brand = "";
-    public String model = "";
-    public String formFactor = "";
-    public ArrayList<Attribute> attributes = new ArrayList<>();
+class Device {
+    String brand = "";
+    String model = "";
+    String formFactor = "";
+    ArrayList<Attribute> attributes = new ArrayList<>();
 
-    public String Validate() {
+    String Validate() {
         String errors = "";
         if (brand.isEmpty() || brand.length() > 50) errors += "Invalid brand : " + (brand.isEmpty() ? "NULL" : brand) + "\n";
 
