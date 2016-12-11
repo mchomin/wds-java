@@ -1,6 +1,7 @@
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.util.List;
 
 class FileLogger {
     private String path;
@@ -11,7 +12,11 @@ class FileLogger {
     }
 
     void addError(String error) {
-        errors += error;
+        errors += error + "/n";
+    }
+
+    void addError(List<String> error) {
+        error.forEach(e -> errors += e + "/n");
     }
 
     void flushToFile() {

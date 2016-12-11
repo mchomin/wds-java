@@ -35,7 +35,7 @@ class JsonRepository {
 
         log.flushToFile();
 
-        data = results.stream().filter(d -> d.Validate().equals("") && countedDevices.get(d.brand + " " + d.model) == 1)
+        data = results.stream().filter(d -> d.Validate().isEmpty() && countedDevices.get(d.brand + " " + d.model) == 1)
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
